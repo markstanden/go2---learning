@@ -1,18 +1,32 @@
 package main
 
 import (
-	"runtime"
+	"fmt"
+	"sync"
 )
 
+var counter int
+var wg sync.WaitGroup
+var mu sync.Mutex
 
 func main() {
-counter := 0
+	for i := 0; i < 100; i++ {
+		wg.Add(1)
+		
+		go count(&counter)
+		
+		wg.Done()
+	}
 
-go func (c int) {
+	wg.Wait()
+	fmt.Println("Counter :", counter)
+}
 
-runtime.Gosched()
-counter = c + 1
+func count(cPoint *int) {
 
-} (counter)
-
+	mu.Lock()
+	c := *cPoint
+	counter = (c + 1)
+	mu.Unlock()
+	
 }
