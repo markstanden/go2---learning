@@ -5,28 +5,27 @@ import (
 	"sync"
 )
 
-var counter int
+var glCounter int
 var wg sync.WaitGroup
 var mu sync.Mutex
 
 func main() {
 	for i := 0; i < 100; i++ {
-		wg.Add(1)
-		
-		go count(&counter)
-		
-		wg.Done()
+
+		count(&glCounter)
+
 	}
 
 	wg.Wait()
-	fmt.Println("Counter :", counter)
+	fmt.Println("Counter :", glCounter)
 }
 
-func count(cPoint *int) {
-
+func count(c *int) {
+	wg.Add(1)
 	mu.Lock()
-	c := *cPoint
-	counter = (c + 1)
+
+	glCounter = (*c + 1)
+
 	mu.Unlock()
-	
+	wg.Done()
 }
