@@ -20,7 +20,7 @@ func receive(even, odd <-chan num) {
 	select {
 	case v := <-even:
 		fmt.Println("Even:\t", v)
-		
+
 	case v := <-odd:
 		fmt.Println("Odd:\t", v)
 	}
@@ -36,6 +36,5 @@ func main() {
 	for i := 0; i < total; i++ {
 		receive(e, o)
 	}
-
 
 }
