@@ -11,7 +11,7 @@ type num int
 func (n num) send(even, odd chan<- num) {
 	if n%2 == 0 {
 		even <- n
-	} else {
+	} else { 
 		odd <- n
 	}
 }
@@ -20,7 +20,7 @@ func receive(even, odd <-chan num) {
 	select {
 	case v := <-even:
 		fmt.Println("Even:\t", v)
-
+		
 	case v := <-odd:
 		fmt.Println("Odd:\t", v)
 	}
@@ -36,5 +36,6 @@ func main() {
 	for i := 0; i < total; i++ {
 		receive(e, o)
 	}
+
 
 }
